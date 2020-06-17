@@ -1,12 +1,28 @@
 package com.example.demo.Entity;
 
+import com.google.gson.annotations.Expose;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.*;
 
+@Getter
+@Setter
+@Data
+@Entity
+@Table(name = "[Genres]")
 public class GenresEntity {
-
+    @Id
+    @Column(name = "genreID")
     private Integer genreID;
+
+    @Column(name = "genre")
     private String genre;
-    private Collection<BookEntity> books;
+
+    @ManyToMany(mappedBy = "genres")
+    private transient Collection<BookEntity> books;
 
     public GenresEntity() {
     }
@@ -14,6 +30,24 @@ public class GenresEntity {
     public GenresEntity(Integer genreID, String genre) {
         this.genreID = genreID;
         this.genre = genre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GenresEntity genresEntity = (GenresEntity) o;
+
+        if (!genreID.equals(genresEntity.genreID)) return false;
+        return genre.equals(genresEntity.genre);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = genreID.hashCode();
+        result = 31 * result + genre.hashCode();
+        return result;
     }
 
     public Integer getGenreID() {

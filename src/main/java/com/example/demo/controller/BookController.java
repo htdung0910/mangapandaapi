@@ -1,12 +1,14 @@
-package com.example.demo.controller;
+package com.example.demo.Controller;
 
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.GenresEntity;
-import com.example.demo.service.*;
+import com.example.demo.ServiceInterface.BookServiceInterface;
+import com.example.demo.ServiceInterface.GenresServiceInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +18,20 @@ import java.util.*;
 @RestController
 @RequestMapping("/manga")
 public class BookController {
-    private BookService bService;
-    private GenresService gService;
+    @Autowired
+    private BookServiceInterface bService;
+    @Autowired
+    private GenresServiceInterface gService;
 
-    private static Logger log = LogManager.getLogger(BookController.class);
+    private static Logger log = LogManager.getLogger(UserController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
     @GetMapping("/title/{search}")
     @CrossOrigin
-    public ResponseEntity<String> getBookByTitle(@PathVariable(value = "search") String title ) {
+    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "search") String title ) {
         try {
-            bService = new BookService();
-            bService.searchMangaByTitle(title);
-            List<BookEntity> books = bService.getListBook();
-            return new ResponseEntity(gson.toJson(books), HttpStatus.OK);
+            List<BookEntity> book = bService.findAllByTitle(title);
+            return new ResponseEntity(gson.toJson(book), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -40,9 +42,11 @@ public class BookController {
     @CrossOrigin
     public ResponseEntity<String> getTop10BookByRateValue() {
         try {
-            bService = new BookService();
-            bService.getTop10BookByRateValue();
-            List<BookEntity> books = bService.getListBook();
+            List<BookEntity> books = bService.getTop10BookByRateValue();
+            /*for (BookEntity b : books) {
+                List<GenresEntity> gL = new ArrayList<>();
+                b.setGenres(gL);
+            }*/
             return new ResponseEntity(gson.toJson(books), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -52,21 +56,13 @@ public class BookController {
 
     @GetMapping("/genre/{genreID}/{listNum}")
     @CrossOrigin
-    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") long genreID,@PathVariable(value = "listNum") long listNum) {
+    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") Long genreID,@PathVariable(value = "listNum") Long listNum) {
         try {
             Map<String, String> result = new HashMap<>();
-            bService = new BookService();
-            gService = new GenresService();
-            bService.getBookByGenres(listNum,genreID);
-            List<BookEntity> books = bService.getListBook();
-                for (BookEntity b : books){
-                    gService.searchGenreOfManga(b.getBookID());
-                    b.setGenres(gService.getListGenre());
-                }
-
-            GenresEntity genre = gService.findGenreById(genreID);
+            List<BookEntity> book = bService.getBookByGenres(listNum,genreID);
+            GenresEntity genre = gService.findGenreById((long)genreID);
             result.put("genre",genre.getGenre());
-            result.put("books",gson.toJson(books));
+            result.put("books",gson.toJson(book));
             return new ResponseEntity(gson.toJson(result), HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
