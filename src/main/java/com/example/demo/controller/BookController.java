@@ -24,7 +24,7 @@ public class BookController {
 
     @GetMapping("/title/{search}")
     @CrossOrigin
-    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "search") String title ) {
+    public ResponseEntity<String> getBookByTitle(@PathVariable(value = "search") String title ) {
         try {
             bService = new BookService();
             bService.searchMangaByTitle(title);
@@ -52,19 +52,18 @@ public class BookController {
 
     @GetMapping("/genre/{genreID}/{listNum}")
     @CrossOrigin
-    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") long genreID,@PathVariable(value = "listNum") long listNum, @RequestParam(value = "stopLoadGenre") int getGenre) {
+    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") long genreID,@PathVariable(value = "listNum") long listNum) {
         try {
             Map<String, String> result = new HashMap<>();
             bService = new BookService();
             gService = new GenresService();
             bService.getBookByGenres(listNum,genreID);
             List<BookEntity> books = bService.getListBook();
-            if(getGenre != 0 ){
                 for (BookEntity b : books){
                     gService.searchGenreOfManga(b.getBookID());
                     b.setGenres(gService.getListGenre());
                 }
-            }
+
             GenresEntity genre = gService.findGenreById(genreID);
             result.put("genre",genre.getGenre());
             result.put("books",gson.toJson(books));
