@@ -2,6 +2,7 @@ package com.example.demo.ReturnEntity;
 
 import com.example.demo.Entity.GenresEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReturnBookEntityWithGenres {
@@ -14,6 +15,7 @@ public class ReturnBookEntityWithGenres {
         this.id = id;
         this.title = title;
         this.thumnailPath = thumnailPath;
-        this.genresList = genresList;
+        this.genresList = new ArrayList<>();
+        this.genresList.addAll(genresList);
     }
 }

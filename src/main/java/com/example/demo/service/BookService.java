@@ -7,7 +7,6 @@ import com.example.demo.Entity.ImageEntity;
 import com.example.demo.Repository.BookRepository;
 import com.example.demo.Repository.ChapterReposiory;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
-import com.example.demo.ReturnEntity.ReturnBookEntityWithGenres;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,7 +40,7 @@ public class BookService implements BookServiceInterface {
             List<BookEntity> temp = repo.getBookByTitle(title);
             List<ReturnBookEntity> returnData = new ArrayList<ReturnBookEntity>(temp.size());
             temp.stream().forEach(x -> {
-                returnData.add(new ReturnBookEntity(x.getBookID(), x.getTitle(), x.getThumnailpath()));
+                returnData.add(new ReturnBookEntity(x.getBookID(), x.getTitle(), x.getThumnailpath(), (List<GenresEntity>) x.getGenres()));
             });
             return returnData;
 
@@ -100,11 +99,11 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<ReturnBookEntityWithGenres> getBookByGenres(long listNum, long genreID) {
+    public List<ReturnBookEntity> getBookByGenres(long listNum, long genreID) {
         List<BookEntity> book = repo.getBookByGenres(listNum,genreID);
-        List<ReturnBookEntityWithGenres> returnData = new ArrayList<>(book.size());
+        List<ReturnBookEntity> returnData = new ArrayList<>(book.size());
         book.stream().forEach(x -> {
-            returnData.add(new ReturnBookEntityWithGenres(x.getBookID(),x.getTitle(),x.getThumnailpath(), (List<GenresEntity>) x.getGenres()));
+            returnData.add(new ReturnBookEntity(x.getBookID(),x.getTitle(),x.getThumnailpath(), (List<GenresEntity>) x.getGenres()));
         });
         return returnData;
     }
