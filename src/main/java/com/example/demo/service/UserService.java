@@ -1,49 +1,124 @@
-package com.example.demo.service;
+package com.example.demo.Service;
 
+import com.example.demo.Entity.UserEntity;
+import com.example.demo.Repository.UserRepository;
+import com.example.demo.ServiceInterface.UserServiceInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.entity.user.UserEntity;
+@Service
+public class UserService implements UserServiceInterface {
 
-/**
- * Service lấy thông tin của 1 user
- * */
-public interface UserService {
+    @Autowired
+    private UserRepository repo;
 
-	/**
-	 * Trả về 1 user theo username nhập vào (dùng để test)
-	 *
-	 * */
-	UserEntity getUser(String username);
-	
-	UserEntity testAUser(String username);//test
-	
-	/**
-	 * Update 1 user thành công trả về true
-	 * */
-	boolean updateAUser(UserEntity user);
-	
-	/**
-	 * Trả về danh sách các username có trong db (dùng để test)
-	 * */
-	List<String> getAllUsername();
-	
-	/**
-	 * Kiểm tra username đó có phải admin không,true nếu là admin
-	 * */
-	boolean isAdmin(String username);
-	
-	/**
-	 * Trả về fullname của username nhập vào
-	 * */
-	String getFullname(String username);
-	
-	/**
-	 * Trả về 1 UserEntity nếu username và password đúng
-	 * */
-	UserEntity login(String username,String password);
-	
-	/**
-	 * Add mới 1 user,trả về true nếu thành công
-	 * */
-	boolean addUser(UserEntity user);
+    private static Logger log = LogManager.getLogger(UserService.class);
+
+    @Override
+    public UserEntity getUser(String username) {
+        try {
+            return repo.getUser(username);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public List<String> getAllUsername() {
+        try {
+            return repo.getAllUserName();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ArrayList<String>();
+    }
+
+    @Override
+    public boolean isAdmin(String username) {
+        try {
+            UserEntity user = repo.getUser(username);
+            return user.getAdmin() == 1;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public String getFullname(String username) {
+        try {
+            return repo.getUser(username).getFullname();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public UserEntity login(String username, String password) {
+        try {
+            if (username == null || username.isEmpty() || password == null || password.isEmpty())
+                return null;
+            return repo.login(username, password);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public boolean addUser(UserEntity user) {
+        if (!checkUser(user))
+            return false;
+        try {
+            if (!repo.existsById(user.getUsername())) {
+                repo.save(user);
+                return true;
+            }
+            return false;
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public UserEntity testAUser(String username) {
+        return repo.findById(username).orElse(null);
+    }
+
+    @Override
+    public boolean updateAUser(UserEntity user) {
+        if (!checkUser(user))
+            return false;
+        try {
+            if (repo.existsById(user.getUsername())) {
+                repo.save(user);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return false;
+    }
+
+    /*
+     * Check data của user,nếu pass các đk trả về true
+     */
+    private boolean checkUser(UserEntity user) {
+        if (user.getUsername() == null || user.getUsername().isEmpty() || user.getPassword() == null
+                || user.getPassword().isEmpty())
+            return false;
+        return true;
+    }
+
 }
+
