@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.GenresEntity;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
-import com.example.demo.ReturnEntity.ReturnBookEntityWithGenres;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import com.example.demo.ServiceInterface.GenresServiceInterface;
 import com.google.gson.Gson;

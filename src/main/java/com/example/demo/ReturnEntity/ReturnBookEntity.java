@@ -11,21 +11,21 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 public class ReturnBookEntity {
-    private String id;
+    private String bookID;
     private String title;
-    private String thumnailPath;
+    private String thumnailpath;
     private List<GenresEntity> genres;
 
     public ReturnBookEntity(String id, String title, String thumnailPath) {
-        this.id = id;
+        this.bookID = id;
         this.title = title;
-        this.thumnailPath = thumnailPath;
+        this.thumnailpath = thumnailPath;
     }
 
     public ReturnBookEntity(String id, String title, String thumnailPath, List<GenresEntity> genresList) {
-        this.id = id;
+        this.bookID = id;
         this.title = title;
-        this.thumnailPath = thumnailPath;
+        this.thumnailpath = thumnailPath;
         this.genres = new ArrayList<>();
         this.genres.addAll(genresList);
     }

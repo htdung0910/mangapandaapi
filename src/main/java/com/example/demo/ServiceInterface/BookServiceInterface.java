@@ -2,7 +2,6 @@ package com.example.demo.ServiceInterface;
 
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
-import com.example.demo.ReturnEntity.ReturnBookEntityWithGenres;
 
 import java.util.*;
 
