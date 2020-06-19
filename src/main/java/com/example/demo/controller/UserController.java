@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.UserEntity;
@@ -29,7 +29,7 @@ public class UserController {
         try {
             UserEntity user = service.login(username, password);
             if (user != null) {
-                return new ResponseEntity("OK man", HttpStatus.OK);
+                return new ResponseEntity("matched", HttpStatus.OK);
             }
             return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
@@ -37,6 +37,40 @@ public class UserController {
         }
         return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
     }
+
+
+    @PostMapping("/register")
+    @CrossOrigin
+    public ResponseEntity<String> register(@RequestParam("username") String username,@RequestParam("password") String password) {
+
+        try {
+            UserEntity user = new UserEntity(username.trim(), password.trim());
+            if (service.addUser(user)) {
+                return new ResponseEntity("OK", HttpStatus.OK);
+            }
+            return new ResponseEntity("Username already existed", HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity("Register denied", HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/AllInfo")
+    @CrossOrigin
+    public ResponseEntity<String> getInfo(@RequestParam("username") String username,@RequestParam("password") String password) {
+
+        try {
+            UserEntity user = service.login(username, password);
+            if (user != null) {
+                return new ResponseEntity(user, HttpStatus.OK);
+            }
+            return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
+    }
+
 
 
 }

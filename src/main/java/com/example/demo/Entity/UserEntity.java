@@ -27,4 +27,17 @@ public class UserEntity {
 
     }
 
+    public UserEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.fullname = "";
+        this.admin = 0;
+    }
+
+    public UserEntity(String username, String password, String fullname) {
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.admin = 0;
+    }
 }
