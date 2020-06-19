@@ -40,7 +40,7 @@ public class BookService implements BookServiceInterface {
             List<BookEntity> temp = repo.getBookByTitle(title);
             List<ReturnBookEntity> returnData = new ArrayList<ReturnBookEntity>(temp.size());
             temp.stream().forEach(x -> {
-                returnData.add(new ReturnBookEntity(x.getBookID(), x.getTitle(), x.getThumnailpath(), (List<GenresEntity>) x.getGenres()));
+                returnData.add(new ReturnBookEntity(x.getBookID(), x.getTitle(), x.getThumnailpath()));
             });
             return returnData;
 

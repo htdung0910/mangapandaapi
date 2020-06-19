@@ -29,13 +29,13 @@ public class UserController {
         try {
             UserEntity user = service.login(username, password);
             if (user != null) {
-                return new ResponseEntity(gson.toJson(user), HttpStatus.OK);
+                return new ResponseEntity("OK man", HttpStatus.OK);
             }
-            return new ResponseEntity<>("Access denied", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return new ResponseEntity<>("Access denied", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
     }
 
 
