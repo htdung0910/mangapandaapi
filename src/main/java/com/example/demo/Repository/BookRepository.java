@@ -15,8 +15,8 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
     @Query(value = "SELECT b.title FROM BookEntity b")
     List<String> getAllTitle();
 
-    @Query(value = "SELECT * FROM [Book] WHERE title like %?1%",nativeQuery = true)
-    List<BookEntity> getBookByTitle(String title);
+    @Query(value = "SELECT b FROM BookEntity b WHERE b.title like %:title%")
+    List<BookEntity> getBookByTitle(@Param("title") String title);
 
     //SELECT s FROM Students s ORDER BY s.id DESC LIMIT 1
     @Query(value = "SELECT TOP 10 * FROM Book ORDER BY rating_value DESC",nativeQuery = true)

@@ -39,10 +39,10 @@ public class BookController {
         if (title2 == null || title2.isEmpty())
             return new ResponseEntity("Search can't be empty", HttpStatus.NOT_ACCEPTABLE);
         try {
-            List<ReturnBookEntity> dataReturn = bService.getMangaByTitle(title2);
-            if (dataReturn == null)
+            List<ReturnBookEntity> books = bService.getMangaByTitle(title2);
+            if (books == null)
                 return new ResponseEntity("Can't find the manga", HttpStatus.NOT_FOUND);
-            return new ResponseEntity(dataReturn, HttpStatus.OK);
+            return new ResponseEntity(books, HttpStatus.OK);
 
         } catch (Exception e) {
 
