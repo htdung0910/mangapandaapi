@@ -66,11 +66,11 @@ public class BookController {
     @CrossOrigin
     public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") Long genreID,@PathVariable(value = "listNum") Long listNum) {
         try {
-            Map<String, Object> result = new HashMap<>();
-            List<ReturnBookEntity> book = bService.getBookByGenres(listNum,genreID);
+            Map<String, String> result = new HashMap<>();
+            List<ReturnBookEntity> books = bService.getBookByGenres(listNum,genreID);
             GenresEntity genre = gService.findGenreById((long)genreID);
-            result.put("genre",genre.getGenre());
-            result.put("books",book);
+            result.put("genreFind",genre.getGenre());
+            result.put("books",gson.toJson(books));
             return new ResponseEntity(result, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
