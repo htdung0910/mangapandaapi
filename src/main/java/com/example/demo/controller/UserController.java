@@ -55,7 +55,7 @@ public class UserController {
         return new ResponseEntity("Register denied", HttpStatus.UNAUTHORIZED);
     }
 
-    @PostMapping("/AllInfo")
+    @PostMapping("/Info")
     @CrossOrigin
     public ResponseEntity<String> getInfo(@RequestParam("username") String username,@RequestParam("password") String password) {
 
