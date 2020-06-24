@@ -64,7 +64,7 @@ public class BookController {
 
     @GetMapping("/genre/{genreID}/{listNum}")
     @CrossOrigin
-    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") Long genreID,@PathVariable(value = "listNum") Long listNum) {
+    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") int genreID,@PathVariable(value = "listNum") int listNum) {
         try {
             Map<String, String> result = new HashMap<>();
             List<ReturnBookEntity> books = bService.getBookByGenres(listNum,genreID);

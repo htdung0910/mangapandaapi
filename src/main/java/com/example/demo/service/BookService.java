@@ -12,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -99,8 +101,8 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<ReturnBookEntity> getBookByGenres(long listNum, long genreID) {
-        List<BookEntity> book = repo.getBookByGenres(listNum,genreID);
+    public List<ReturnBookEntity> getBookByGenres(int listNum, int genreID) {
+        List<BookEntity> book = repo.getBookByGenres(genreID,PageRequest.of(0, listNum));
         List<ReturnBookEntity> returnData = new ArrayList<>(book.size());
         book.stream().forEach(x -> {
             returnData.add(new ReturnBookEntity(x.getBookID(),x.getTitle(),x.getThumnailpath(), (List<GenresEntity>) x.getGenres()));

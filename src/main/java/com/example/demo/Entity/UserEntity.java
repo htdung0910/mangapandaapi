@@ -23,6 +23,8 @@ public class UserEntity {
     @Column(name = "isadmin")
     private int admin;
 
+
+
     public UserEntity() {
 
     }

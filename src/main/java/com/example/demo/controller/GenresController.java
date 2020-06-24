@@ -25,7 +25,7 @@ public class GenresController {
     private static Logger log = LogManager.getLogger(GenresController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-    @GetMapping("/")
+    @GetMapping("")
     @CrossOrigin
     public ResponseEntity<String> getAllGenres() {
         try {
