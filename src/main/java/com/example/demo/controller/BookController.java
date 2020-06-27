@@ -77,45 +77,4 @@ public class BookController {
         }
         return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
     }
-
-    @GetMapping("/{bookID}")
-    @CrossOrigin
-    public Object getAllChapterByMangaID(@PathVariable("bookID") String bookID) {
-        String bookID2 = bookID.trim();
-        if (bookID2 == null || bookID2.isEmpty())
-            return new ResponseEntity("Book id can't be empty",
-                    HttpStatus.NOT_ACCEPTABLE);
-        try {
-            BookEntity returnData = bService.getByID(bookID2);
-            if (returnData == null)
-                return new ResponseEntity("The manga doesn't exist",
-                        HttpStatus.NOT_FOUND);
-            return new ResponseEntity(returnData, HttpStatus.OK);
-
-        } catch (Exception e) {
-
-        }
-        return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/chapter/{chapterID}")
-    @CrossOrigin
-    public Object getChapterImageByChapterID(@PathVariable("chapterID") String chapterID) {
-        String chapterID2 = chapterID.trim();
-        if (chapterID2 == null || chapterID2.isEmpty())
-            return new ResponseEntity("Chapter id can't be empty",
-                    HttpStatus.NOT_ACCEPTABLE);
-        try {
-            List<String> returnData = bService.getImageByChapterID(chapterID2);
-            if (returnData == null)
-                return new ResponseEntity("The chapter doesn't exist",
-                        HttpStatus.NOT_FOUND);
-            return new ResponseEntity(returnData, HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
-
-    }
 }

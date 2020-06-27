@@ -1,6 +1,7 @@
 package com.example.demo.ServiceInterface;
 
 import com.example.demo.Entity.BookEntity;
+import com.example.demo.Entity.ChapterEntity;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
 
 import java.util.*;
@@ -30,7 +31,12 @@ public interface BookServiceInterface {
     /**
      * Trả về 1 chapter,rồi từ entity chapter này lấy list các image của nó
      * */
-    List<String> getImageByChapterID(String chapterID);
+    List<String> getImagesByChapterID(String chapterID);
+
+    /**
+     * Trả về những chapter của manga này
+     */
+    List<ChapterEntity> getChaptersByBookID(String bookID);
 
     /**
      * Trả về Top 4 book rate cao nhất theo genreID

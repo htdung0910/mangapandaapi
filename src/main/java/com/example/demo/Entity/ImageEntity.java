@@ -16,6 +16,7 @@ import javax.persistence.*;
 @Table(name = "`Chapter_image`")
 @JsonIgnoreProperties(value = "chapterID")
 public class ImageEntity {
+
     @Id
     @Column(name = "id")
     private String id;
@@ -23,31 +24,15 @@ public class ImageEntity {
     @Column(name = "url")
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chapter_id", nullable = false)
-    private ChapterEntity chapterID;
+    /*
+     * @ManyToOne
+     *
+     * @JoinColumn(name = "chapter_id", nullable = false) private ChapterEntity
+     * chapterID;
+     */
 
-    public String getId() {
-        return id;
-    }
+    @Column(name = "chapter_id")
+    private String chapterID;
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public ChapterEntity getChapterID() {
-        return chapterID;
-    }
-
-    public void setChapterID(ChapterEntity chapterID) {
-        this.chapterID = chapterID;
-    }
 }

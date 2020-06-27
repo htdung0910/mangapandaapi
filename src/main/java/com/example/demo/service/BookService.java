@@ -6,6 +6,7 @@ import com.example.demo.Entity.GenresEntity;
 import com.example.demo.Entity.ImageEntity;
 import com.example.demo.Repository.BookRepository;
 import com.example.demo.Repository.ChapterReposiory;
+import com.example.demo.Repository.ImageRepository;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +26,9 @@ public class BookService implements BookServiceInterface {
 
     @Autowired
     private ChapterReposiory cRepo;
+
+    @Autowired
+    private ImageRepository iRepo;
 
     @Override
     public List<String> getAllTitile() {
@@ -80,22 +84,31 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<String> getImageByChapterID(String chapterID) {
-        ChapterEntity chapter = null;
+    public List<String> getImagesByChapterID(String chapterID) {
+        List<String> returnData = null;
         try {
-            chapter = cRepo.getAllChapterImageByChapterID(chapterID);
+            if(!cRepo.existsById(chapterID))
+                return null;
+            returnData = iRepo.getImagesByChapterID(chapterID);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return returnData;
+    }
+
+    @Override
+    public List<ChapterEntity> getChaptersByBookID(String bookID) {
+        BookEntity manga = getByID(bookID);
+        if (manga == null)
+            return null;
+        List<ChapterEntity> tempData = null;
+        try {
+            tempData = cRepo.getChaptersByBookID(bookID);
 
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        if (chapter == null)
-            return null;
-        List<ImageEntity> tempData = chapter.getImages();
-        List<String> returnData = new ArrayList<String>(tempData.size());
-        tempData.stream().forEach(x -> {
-            returnData.add(x.getUrl());
-        });
-        return returnData;
+        return tempData;
     }
 
     @Override
@@ -103,7 +116,7 @@ public class BookService implements BookServiceInterface {
         List<BookEntity> book = repo.getBookByGenres(listNum,genreID);
         List<ReturnBookEntity> returnData = new ArrayList<>(book.size());
         book.stream().forEach(x -> {
-            returnData.add(new ReturnBookEntity(x.getBookID(),x.getTitle(),x.getThumnailpath(), (List<GenresEntity>) x.getGenres()));
+            returnData.add(new ReturnBookEntity(x.getBookID(),x.getTitle(),x.getThumnailpath()));
         });
         return returnData;
     }

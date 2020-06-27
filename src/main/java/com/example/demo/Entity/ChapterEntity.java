@@ -37,10 +37,6 @@ public class ChapterEntity {
     @Column(name = "upload_date")
     private String date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookID", nullable = false)
-    private BookEntity bookID;
-
-    @OneToMany(mappedBy = "chapterID",fetch = FetchType.LAZY)
-    private List<ImageEntity> images;
+    @Column(name = "bookID")
+    private String bookID;
 }

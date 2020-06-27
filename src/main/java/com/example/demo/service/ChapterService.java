@@ -19,6 +19,6 @@ public class ChapterService implements ChapterServiceInterface {
 
     @Override
     public List<ChapterEntity> getAllChapterByBookID(String bookID) {
-        return repo.getAllChapterByBookID(bookID);
+        return repo.getChaptersByBookID(bookID);
     }
 }
