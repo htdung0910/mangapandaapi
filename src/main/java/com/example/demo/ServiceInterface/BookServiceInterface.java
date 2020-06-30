@@ -16,12 +16,12 @@ public interface BookServiceInterface {
     /**
      * Trả về list các manga có chứa title
      * */
-    List<ReturnBookEntity> getMangaByTitle(String title);
+    List<BookEntity> getMangaByTitle(String title);
 
     /**
      * Top 10 manga có lượt vote cao nhất
      * */
-    List<ReturnBookEntity> getHottestManga();
+    List<BookEntity> getHottestManga();
 
     /**
      * Trả về 1 manga dựa vào id,null nếu ko tìm ra
@@ -42,5 +42,5 @@ public interface BookServiceInterface {
      * Trả về Top 4 book rate cao nhất theo genreID
      *
      * */
-    List<ReturnBookEntity> getBookByGenres(long listNum,long genreID);
+    List<BookEntity> getBookByGenres(long listNum,long genreID);
 }

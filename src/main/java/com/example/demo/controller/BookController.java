@@ -39,7 +39,7 @@ public class BookController {
         if (title2 == null || title2.isEmpty())
             return new ResponseEntity("Search can't be empty", HttpStatus.NOT_ACCEPTABLE);
         try {
-            List<ReturnBookEntity> books = bService.getMangaByTitle(title2);
+            List<BookEntity> books = bService.getMangaByTitle(title2);
             if (books == null)
                 return new ResponseEntity("Can't find the manga", HttpStatus.NOT_FOUND);
             return new ResponseEntity(books, HttpStatus.OK);
@@ -54,7 +54,7 @@ public class BookController {
     @CrossOrigin
     public ResponseEntity<String> getTop10BookByRateValue() {
         try {
-            List<ReturnBookEntity> books = bService.getHottestManga();
+            List<BookEntity> books = bService.getHottestManga();
             return new ResponseEntity(books, HttpStatus.OK);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -67,7 +67,7 @@ public class BookController {
     public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") Long genreID,@PathVariable(value = "listNum") Long listNum) {
         try {
             Map<String, String> result = new HashMap<>();
-            List<ReturnBookEntity> books = bService.getBookByGenres(listNum,genreID);
+            List<BookEntity> books = bService.getBookByGenres(listNum,genreID);
             GenresEntity genre = gService.findGenreById((long)genreID);
             result.put("genreFind",genre.getGenre());
             result.put("books",gson.toJson(books));

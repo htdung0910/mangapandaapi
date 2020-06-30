@@ -36,16 +36,12 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<ReturnBookEntity> getMangaByTitle(String title) {
+    public List<BookEntity> getMangaByTitle(String title) {
         if (title.isEmpty() || title == null) {
             return null;
         }
         try {
-            List<BookEntity> temp = repo.getBookByTitle(title);
-            List<ReturnBookEntity> returnData = new ArrayList<ReturnBookEntity>(temp.size());
-            temp.stream().forEach(x -> {
-                returnData.add(new ReturnBookEntity(x.getBookID(), x.getTitle(), x.getThumnailpath()));
-            });
+            List<BookEntity> returnData = repo.getBookByTitle(title);
             return returnData;
 
         } catch (Exception e) {
@@ -55,17 +51,13 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<ReturnBookEntity> getHottestManga() {
-        List<BookEntity> temp = null;
+    public List<BookEntity> getHottestManga() {
+        List<BookEntity> returnData = null;
         try {
-            temp = repo.findTop10ByOrderByRatingValueDesc();
+            returnData = repo.findTop10ByOrderByRatingValueDesc();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        List<ReturnBookEntity> returnData = new ArrayStack<ReturnBookEntity>(temp.size());
-        temp.stream().forEach(x -> {
-            returnData.add(new ReturnBookEntity(x.getBookID(), x.getTitle(), x.getThumnailpath()));
-        });
         return returnData;
     }
 
@@ -112,13 +104,9 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<ReturnBookEntity> getBookByGenres(long listNum, long genreID) {
+    public List<BookEntity> getBookByGenres(long listNum, long genreID) {
         List<BookEntity> book = repo.getBookByGenres(listNum,genreID);
-        List<ReturnBookEntity> returnData = new ArrayList<>(book.size());
-        book.stream().forEach(x -> {
-            returnData.add(new ReturnBookEntity(x.getBookID(),x.getTitle(),x.getThumnailpath()));
-        });
-        return returnData;
+        return book;
     }
 
 
