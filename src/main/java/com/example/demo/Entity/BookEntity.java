@@ -34,7 +34,7 @@ public class BookEntity {
     private float ratingvalue;
 
     @Column(name = "rating_count")
-    private float ratingcount;
+    private int ratingcount;
 
     @Column(name = "author")
     private String author;

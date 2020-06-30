@@ -11,15 +11,9 @@ import java.util.List;
 @Repository
 public interface ChapterReposiory extends JpaRepository<ChapterEntity, String> {
 
-    @Query(value = "SELECT * \n" +
-            "  FROM [dbo].[Chapter] c\n" +
-            "  INNER JOIN [Chapter_image] ci ON ci.chapter_id = c.chapterID\n" +
-            "  WHERE c.chapterID = ?1\n" +
-            "  ORDER BY len(ci.id),ci.id"
-            , nativeQuery = true)
-    ChapterEntity getAllChapterImageByChapterID(String chapterID);
 
-    @Query("SELECT c FROM ChapterEntity c WHERE c.bookID = :bookID order by c.id, length(c.id) DESC ")
+
+    @Query("SELECT c FROM ChapterEntity c WHERE c.bookID = :bookID order by length(c.id),c.id ASC")
     List<ChapterEntity> getChaptersByBookID(@Param("bookID") String bookID);
 
 }
