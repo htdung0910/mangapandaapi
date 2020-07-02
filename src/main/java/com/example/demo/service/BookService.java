@@ -6,6 +6,7 @@ import com.example.demo.Entity.GenresEntity;
 import com.example.demo.Entity.ImageEntity;
 import com.example.demo.Repository.BookRepository;
 import com.example.demo.Repository.ChapterReposiory;
+import com.example.demo.Repository.GenresRepository;
 import com.example.demo.Repository.ImageRepository;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
@@ -29,6 +30,9 @@ public class BookService implements BookServiceInterface {
 
     @Autowired
     private ImageRepository iRepo;
+
+    @Autowired
+    private GenresRepository gRepo;
 
     @Override
     public List<String> getAllTitile() {
@@ -104,9 +108,18 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<BookEntity> getBookByGenres(long listNum, long genreID) {
-        List<BookEntity> book = repo.getBookByGenres(listNum,genreID);
-        return book;
+    public List<BookEntity> getBookByGenres(int quantity, int genreID) {
+        try{
+            if (!gRepo.existsById(genreID))
+                return null;
+            List<BookEntity> temp = repo.getBookByGenres(quantity,genreID);
+            if(temp.size() < quantity)
+                return null;
+            return temp;
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
+        return null;
     }
 
 

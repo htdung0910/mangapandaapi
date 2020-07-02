@@ -21,8 +21,6 @@ import java.util.*;
 public class BookController {
     @Autowired
     private BookServiceInterface bService;
-    @Autowired
-    private GenresServiceInterface gService;
 
     private static Logger log = LogManager.getLogger(BookController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -60,22 +58,6 @@ public class BookController {
             log.error(e.getMessage());
         }
         return new ResponseEntity<>("Access denied", HttpStatus.UNAUTHORIZED);
-    }
-
-    @GetMapping("/genre/{genreID}/{listNum}")
-    @CrossOrigin
-    public ResponseEntity<String> getBookByGenre(@PathVariable(value = "genreID") Long genreID,@PathVariable(value = "listNum") Long listNum) {
-        try {
-            Map<String, String> result = new HashMap<>();
-            List<BookEntity> books = bService.getBookByGenres(listNum,genreID);
-            GenresEntity genre = gService.findGenreById((long)genreID);
-            result.put("genreFind",genre.getGenre());
-            result.put("books",gson.toJson(books));
-            return new ResponseEntity(result, HttpStatus.OK);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/{bookID}")

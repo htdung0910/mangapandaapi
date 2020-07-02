@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GenresRepository extends JpaRepository<GenresEntity, String> {
+public interface GenresRepository extends JpaRepository<GenresEntity, Integer> {
     @Query(value = "SELECT g.genre, g.genreID FROM Genres AS g WHERE genreID = ?1 ", nativeQuery = true)
     GenresEntity findGenreById(long genreID);
+
 }

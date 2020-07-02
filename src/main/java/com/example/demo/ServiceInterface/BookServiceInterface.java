@@ -42,5 +42,5 @@ public interface BookServiceInterface {
      * Trả về Top 4 book rate cao nhất theo genreID
      *
      * */
-    List<BookEntity> getBookByGenres(long listNum,long genreID);
+    List<BookEntity> getBookByGenres(int quantity,int genreID);
 }
