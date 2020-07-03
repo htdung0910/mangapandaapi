@@ -1,10 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
+import com.example.demo.Entity.BookProcessEntity;
 import com.example.demo.Entity.GenresEntity;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import com.example.demo.ServiceInterface.GenresServiceInterface;
+import com.example.demo.ServiceInterface.UserServiceInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 @RestController
@@ -21,6 +24,8 @@ import java.util.*;
 public class BookController {
     @Autowired
     private BookServiceInterface bService;
+    @Autowired
+    private UserServiceInterface uService;
 
     private static Logger log = LogManager.getLogger(BookController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
@@ -79,4 +84,24 @@ public class BookController {
         }
         return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
     }
+
+    @PostMapping("/recommend")
+    @CrossOrigin
+    public Object getRecommend(@RequestParam(value = "username", required = false) String username,
+                               @RequestParam(value = "password", required = false) String password) {
+        try {
+            if(uService.login(username,password) != null){
+                List<BookEntity> listBookRecommend = bService.getRecommend(username);
+                return new ResponseEntity(listBookRecommend, HttpStatus.OK);
+            }else{
+                List<BookEntity> books = bService.getHottestManga();
+                return new ResponseEntity(books, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+
+        }
+        return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
+    }
+
+
 }

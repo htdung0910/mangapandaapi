@@ -1,4 +1,4 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import com.example.demo.Entity.UserEntity;
 import com.example.demo.Repository.UserRepository;
@@ -59,6 +59,7 @@ public class UserService implements UserServiceInterface {
         }
         return null;
     }
+
 
     @Override
     public UserEntity login(String username, String password) {

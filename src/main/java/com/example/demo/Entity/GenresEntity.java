@@ -25,8 +25,6 @@ public class GenresEntity {
     @Nationalized
     private String genre;
 
-    /*@ManyToMany(mappedBy = "genres",fetch = FetchType.LAZY)
-    private transient Collection<BookEntity> books;*/
 
     public GenresEntity() {
     }

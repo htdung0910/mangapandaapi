@@ -1,6 +1,7 @@
 package com.example.demo.ServiceInterface;
 
 import com.example.demo.Entity.BookEntity;
+import com.example.demo.Entity.BookProcessEntity;
 import com.example.demo.Entity.ChapterEntity;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
 
@@ -39,8 +40,29 @@ public interface BookServiceInterface {
     List<ChapterEntity> getChaptersByBookID(String bookID);
 
     /**
-     * Trả về Top 4 book rate cao nhất theo genreID
+     * Trả về Top {quantity} book rate cao nhất theo {genreID}
      *
      * */
     List<BookEntity> getBookByGenres(int quantity,int genreID);
+
+    /**
+     * Trả về info between user and book
+     *{username}
+     * {bookid}
+     * */
+    BookProcessEntity getInfoUserBetweenBook(String username, String bookID);
+
+    /**
+     * Save BookProcessEntity(Add, update)
+     *
+     * */
+    void saveBookProcessEntity(BookProcessEntity bpEntity);
+
+    /**
+     * Save BookEntity(Add, update)
+     *
+     * */
+    void saveBookEntity(BookEntity bEntity);
+
+    List<BookEntity> getRecommend(String username);
 }

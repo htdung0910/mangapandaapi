@@ -25,12 +25,9 @@ public class BookProcessEntity {
     @Column(name = "rate")
     private float rate;
 
-    @Column(name = "currentPage")
-    private int currentPage;
-
-    @Column(name = "isFollow")
+    @Column(name = "is_follow")
     private boolean isFollow;
 
-    @Column(name = "isUpload")
+    @Column(name = "is_upload")
     private boolean isUpload;
 }
