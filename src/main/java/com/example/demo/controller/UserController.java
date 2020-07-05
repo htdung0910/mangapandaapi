@@ -13,13 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserServiceInterface service;
+    private UserServiceInterface uService;
+    @Autowired
+    private BookServiceInterface bService;
+
     private static Logger log = LogManager.getLogger(UserController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
@@ -27,7 +30,7 @@ public class UserController {
     @CrossOrigin
     public ResponseEntity<String> login(@RequestParam("username") String username,@RequestParam("password") String password) {
         try {
-            UserEntity user = service.login(username, password);
+            UserEntity user = uService.login(username, password);
             if (user != null) {
                 return new ResponseEntity("matched", HttpStatus.OK);
             }
@@ -45,7 +48,7 @@ public class UserController {
 
         try {
             UserEntity user = new UserEntity(username.trim(), password.trim());
-            if (service.addUser(user)) {
+            if (uService.addUser(user)) {
                 return new ResponseEntity("OK", HttpStatus.OK);
             }
             return new ResponseEntity("Username already existed", HttpStatus.UNAUTHORIZED);
@@ -60,17 +63,40 @@ public class UserController {
     public ResponseEntity<String> getInfo(@RequestParam("username") String username,@RequestParam("password") String password) {
 
         try {
-            UserEntity user = service.login(username, password);
+            UserEntity user = uService.login(username, password);
             if (user != null) {
                 return new ResponseEntity(user, HttpStatus.OK);
             }
-            return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
         return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
     }
 
+    @PostMapping("/follow")
+    @CrossOrigin
+    public ResponseEntity getBookFollowByUser(@RequestParam("username") String username,@RequestParam("password") String password) {
 
+        try {
+            if(uService.login(username,password) != null){
+                List<BookEntity> result = bService.getFollow(username);
+                return new ResponseEntity(result, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
+    }
 
+    @GetMapping("/topPost")
+    @CrossOrigin
+    public ResponseEntity getTopUserByBookRate() {
+        List<UserEntity> result = null;
+        try {
+            result = bService.getTopUserPostBook();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
 }

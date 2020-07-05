@@ -3,6 +3,7 @@ package com.example.demo.ServiceInterface;
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.BookProcessEntity;
 import com.example.demo.Entity.ChapterEntity;
+import com.example.demo.Entity.UserEntity;
 import com.example.demo.ReturnEntity.ReturnBookEntity;
 
 import java.util.*;
@@ -64,5 +65,21 @@ public interface BookServiceInterface {
      * */
     void saveBookEntity(BookEntity bEntity);
 
+    /**
+     * Trả về list recommend book for each user.
+     *
+     * */
     List<BookEntity> getRecommend(String username);
+
+    /**
+     * Trả về list book follow by each user.
+     *
+     * */
+    List<BookEntity> getFollow(String username);
+
+    /**
+     * Trả về list top user by book post rate.
+     *
+     * */
+    List<UserEntity> getTopUserPostBook();
 }

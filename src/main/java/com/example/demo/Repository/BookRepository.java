@@ -2,6 +2,7 @@ package com.example.demo.Repository;
 
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.GenresEntity;
+import com.example.demo.Entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,12 +43,14 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
             "  ORDER BY Count(g.genreID) * 0.4 + (SUM(bp.rate) / Count(g.genreID)) * 0.25 + SUM(CAST(bp.is_follow AS INT)) * 0.35 DESC", nativeQuery = true)
     List<Integer> getListGenresRecommend(String username);
 
-    @Query(value="Select Top 10 b.* From Book b\n" +
-            "INNER JOIN Book_genres bg ON bg.bookID = b.bookID\n" +
-            "INNER JOIN Genres g ON bg.genreID = g.genreID\n" +
-            "WHERE b.rating_value BETWEEN 4 AND 5 ?1\n" +
-            "order by g.genreID ,RAND() Desc", nativeQuery = true)
-    List<BookEntity> getListMangaRecommend(String sql);
+
+    @Query(value="SELECT b.*\n" +
+            "  FROM [dbo].[Book] b\n" +
+            "  INNER JOIN Book_process bp ON bp.bookID = b.bookID\n" +
+            "  INNER JOIN [User] u ON u.username = bp.username\n" +
+            "  WHERE bp.isFollow = 1 AND u.username = ?1", nativeQuery = true)
+    List<BookEntity> getListMangaFollowByUser(String username);
+
 
 
 

@@ -22,4 +22,12 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     @Query(value = "SELECT u FROM UserEntity u WHERE u.username = :username AND u.password = :password")
     UserEntity login(@Param("username") String username, @Param("password") String password);
 
+    @Query(value="SELECT u.*\n" +
+            "FROM [dbo].[User] u\n" +
+            "INNER JOIN Book_process bp ON bp.username = u.username\n" +
+            "INNER JOIN [Book] b ON b.bookID = bp.bookID\n" +
+            "WHERE bp.isUpload = 1\n" +
+            "GROUP BY u.username,u.fullname,u.[password],u.isadmin\n" +
+            "Order by SUM(b.rating_value) DESC", nativeQuery = true)
+    List<UserEntity> getListTopUserByRateBook();
 }

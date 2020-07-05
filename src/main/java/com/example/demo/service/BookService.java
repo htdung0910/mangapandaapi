@@ -187,4 +187,27 @@ public class BookService implements BookServiceInterface {
         }
         return listBookRecommend;
     }
+
+    @Override
+    public List<BookEntity> getFollow(String username) {
+        List<BookEntity> listBookFollow = null;
+        try{
+            listBookFollow = bRepo.getListMangaFollowByUser(username);
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
+        return listBookFollow;
+    }
+
+    @Override
+    public List<UserEntity> getTopUserPostBook() {
+        List<UserEntity> listTopUserPostManga = null;
+        try{
+            listTopUserPostManga = uRepo.getListTopUserByRateBook();
+        }catch(Exception e){
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return listTopUserPostManga;
+    }
 }
