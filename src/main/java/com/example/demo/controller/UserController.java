@@ -28,13 +28,15 @@ public class UserController {
 
     @PostMapping("/login")
     @CrossOrigin
-    public ResponseEntity<String> login(@RequestParam("username") String username,@RequestParam("password") String password) {
+    public ResponseEntity login(@RequestParam("username") String username,@RequestParam("password") String password) {
         try {
             UserEntity user = uService.login(username, password);
             if (user != null) {
-                return new ResponseEntity("matched", HttpStatus.OK);
+                if(user.getAdmin() == 1){
+                    return new ResponseEntity("", HttpStatus.NOT_ACCEPTABLE);
+                }
+                return new ResponseEntity(user, HttpStatus.OK);
             }
-            return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -73,12 +75,29 @@ public class UserController {
         return new ResponseEntity("Access denied", HttpStatus.UNAUTHORIZED);
     }
 
+    @PutMapping("/update")
+    @CrossOrigin
+    public Object update(@RequestParam("username") String username,@RequestParam("password") String password, @RequestParam("fullname") String fullname) {
+        try {
+            UserEntity user = new UserEntity(username.trim(), password.trim(),fullname.trim());
+            if (uService.updateAUser(user)) {
+                return new ResponseEntity("OK", HttpStatus.OK);
+            }
+            return new ResponseEntity("Update denied", HttpStatus.UNAUTHORIZED);
+
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity("Update denied", HttpStatus.UNAUTHORIZED);
+
+    }
+
     @PostMapping("/follow")
     @CrossOrigin
-    public ResponseEntity getBookFollowByUser(@RequestParam("username") String username,@RequestParam("password") String password) {
+    public ResponseEntity getBookFollowByUser(@RequestParam("username") String username) {
 
         try {
-            if(uService.login(username,password) != null){
+            if(uService.checkUsername(username) != null){
                 List<BookEntity> result = bService.getFollow(username);
                 return new ResponseEntity(result, HttpStatus.OK);
             }

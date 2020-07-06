@@ -11,7 +11,7 @@ public interface UserServiceInterface {
      * */
     UserEntity getUser(String username);
 
-    UserEntity testAUser(String username);//test
+    UserEntity checkUsername(String username);
 
     /**
      * Update 1 user thành công trả về true

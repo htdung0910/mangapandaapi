@@ -91,7 +91,7 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserEntity testAUser(String username) {
+    public UserEntity checkUsername(String username) {
         return repo.findById(username).orElse(null);
     }
 

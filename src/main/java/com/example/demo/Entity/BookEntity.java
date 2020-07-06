@@ -42,12 +42,6 @@ public class BookEntity {
     @Column(name = "detail_content")
     private String detailcontent;
 
-    /*@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "[Book_genres]",
-            joinColumns = @JoinColumn(name = "bookID"),
-            inverseJoinColumns = @JoinColumn(name = "genreID"))
-    private Collection<GenresEntity> genres;
-
-    @OneToMany(mappedBy = "bookID",fetch = FetchType.LAZY)
-    private List<ChapterEntity> chapters;*/
+    @Column(name = "isLogin")
+    private boolean isLogin;
 }

@@ -17,20 +17,19 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
     @Query(value = "SELECT b.title FROM BookEntity b")
     List<String> getAllTitle();
 
-    @Query(value = "SELECT b FROM BookEntity b WHERE b.title like %:title%")
+    @Query(value = "SELECT b FROM BookEntity b WHERE b.isLogin = false and b.title like %:title%")
     List<BookEntity> getBookByTitle(@Param("title") String title);
 
-    //SELECT s FROM Students s ORDER BY s.id DESC LIMIT 1
-    @Query(value = "SELECT TOP 10 * FROM Book Where rating_value between 3.5 and 5 ORDER BY rating_value, newid()",nativeQuery = true)
+    @Query(value = "SELECT TOP 10 * FROM Book Where isLogin = 0 and rating_value between 4.01 and 5 ORDER BY rating_value",nativeQuery = true)
     List<BookEntity> findTop10ByOrderByRatingValueDesc();
 
     @Query(value="SELECT TOP (?1) *\n" +
             "  FROM [Book] b\n" +
             "  INNER JOIN Book_genres bg ON b.bookID = bg.bookID\n" +
             "  INNER JOIN Genres g ON g.genreID = bg.genreID\n" +
-            "  WHERE g.genreID = ?2\n" +
+            "  WHERE g.genreID = ?2 and b.isLogin = 0 and b.rating_value between 4.01 and 5\n" +
             "  ORDER BY b.rating_value, newid() ", nativeQuery = true)
-    List<BookEntity> getBookByGenres(long listNum,long genresID);
+    List<BookEntity> getBookByGenres(long quantity ,long genresID);
 
 
     @Query(value="SELECT g.genreID\n" +

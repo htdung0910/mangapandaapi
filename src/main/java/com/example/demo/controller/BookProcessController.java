@@ -67,6 +67,7 @@ public class BookProcessController {
         if(uService.login(username,password) != null){
             BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
             bpEntity.setFollow(!bpEntity.isFollow());
+            //con nua
         }
     }
 }
