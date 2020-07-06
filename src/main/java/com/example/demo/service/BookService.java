@@ -119,8 +119,6 @@ public class BookService implements BookServiceInterface {
             if (!gRepo.existsById(genreID))
                 return null;
             List<BookEntity> temp = bRepo.getBookByGenres(quantity,genreID);
-            if(temp.size() < quantity)
-                return null;
             return temp;
         }catch(Exception e){
             log.error(e.getMessage());
