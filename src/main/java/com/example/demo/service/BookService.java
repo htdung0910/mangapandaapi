@@ -165,7 +165,7 @@ public class BookService implements BookServiceInterface {
             String sql = "";
             for (int i = 0; i < listGenresRecommend.size(); i++) {
                 if(i == 0){
-                    sql += "g.genreID = "+listGenresRecommend.get(i)+" ";
+                    sql += "AND g.genreID = "+listGenresRecommend.get(i)+" ";
                 }else{
                     sql += "OR g.genreID = "+listGenresRecommend.get(i)+" ";
                 }
@@ -176,7 +176,7 @@ public class BookService implements BookServiceInterface {
                             "INNER JOIN Genres g ON bg.genreID = g.genreID\n" +
                             "WHERE b.bookID in (Select Top 50 b.bookID From Book b\n" +
                             "\t\t\t\t\tWhere b.rating_value between 3 and 5\n" +
-                            "\t\t\t\t\torder by b.rating_value * b.rating_count Desc) AND " + sql + " \n"+
+                            "\t\t\t\t\torder by b.rating_value * b.rating_count Desc) " + sql + " \n"+
                             "Order by g.genreID ,newid()"
                     ,BookEntity.class);
             listBookRecommend = query.getResultList();

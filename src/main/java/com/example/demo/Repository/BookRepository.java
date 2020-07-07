@@ -39,7 +39,7 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
             "  INNER JOIN Genres g ON bg.genreID = g.genreID\n" +
             "  WHERE bp.username = ?1\n" +
             "  GROUP BY g.genreID\n" +
-            "  ORDER BY Count(g.genreID) * 0.4 + (SUM(bp.rate) / Count(g.genreID)) * 0.25 + SUM(CAST(bp.is_follow AS INT)) * 0.35 DESC", nativeQuery = true)
+            "  ORDER BY Count(g.genreID) * 0.4 + (SUM(bp.rate) / Count(g.genreID)) * 0.25 + SUM(CAST(bp.isFollow AS INT)) * 0.35 DESC", nativeQuery = true)
     List<Integer> getListGenresRecommend(String username);
 
 

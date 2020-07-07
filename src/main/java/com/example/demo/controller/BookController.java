@@ -93,13 +93,10 @@ public class BookController {
         try {
             if(uService.login(username,password) != null){
                 listBookRecommend = bService.getRecommend(username);
-                return new ResponseEntity(listBookRecommend, HttpStatus.OK);
+            }else{
+                listBookRecommend = bService.getHottestManga();
             }
-
-            if(listBookRecommend.isEmpty()){
-                List<BookEntity> books = bService.getHottestManga();
-                return new ResponseEntity(books, HttpStatus.OK);
-            }
+            return new ResponseEntity(listBookRecommend, HttpStatus.OK);
         } catch (Exception e) {
 
         }
