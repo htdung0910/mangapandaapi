@@ -89,11 +89,14 @@ public class BookController {
     @CrossOrigin
     public Object getRecommend(@RequestParam(value = "username", required = false) String username,
                                @RequestParam(value = "password", required = false) String password) {
+        List<BookEntity> listBookRecommend = new ArrayList<>();
         try {
             if(uService.login(username,password) != null){
-                List<BookEntity> listBookRecommend = bService.getRecommend(username);
+                listBookRecommend = bService.getRecommend(username);
                 return new ResponseEntity(listBookRecommend, HttpStatus.OK);
-            }else{
+            }
+
+            if(listBookRecommend.isEmpty()){
                 List<BookEntity> books = bService.getHottestManga();
                 return new ResponseEntity(books, HttpStatus.OK);
             }

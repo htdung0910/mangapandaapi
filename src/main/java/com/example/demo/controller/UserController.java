@@ -77,7 +77,9 @@ public class UserController {
 
     @PutMapping("/update")
     @CrossOrigin
-    public Object update(@RequestParam("username") String username,@RequestParam("password") String password, @RequestParam("fullname") String fullname) {
+    public Object update(@RequestParam("username") String username,
+                         @RequestParam("password") String password,
+                         @RequestParam("fullname") String fullname) {
         try {
             UserEntity user = new UserEntity(username.trim(), password.trim(),fullname.trim());
             if (uService.updateAUser(user)) {

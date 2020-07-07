@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookProcessRepository extends JpaRepository<BookProcessEntity, String> {
-    @Query(value = "select bp from BookProcessEntity bp where bp.username = :username and bp.bookID = :bookID")
-    BookProcessEntity getInfoUserBetweenBook(@Param("username") String username, @Param("bookID") String bookID);
+    @Query(value = "select * from Book_process bp where username = ?1 and bookID = ?2", nativeQuery = true)
+    BookProcessEntity getInfoUserBetweenBook(String username, String bookID);
 
 }

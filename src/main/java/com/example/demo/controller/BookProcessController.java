@@ -36,9 +36,7 @@ public class BookProcessController {
 
             BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
             if(bpEntity == null){
-                bpEntity = new BookProcessEntity();
-                bpEntity.setUsername(username);
-                bpEntity.setBookID(bookID);
+                bpEntity = new BookProcessEntity(username,bookID,null,false,false);
             }
             bpEntity.setRate(rateValue);
             bService.saveBookProcessEntity(bpEntity);
@@ -54,9 +52,12 @@ public class BookProcessController {
         DecimalFormat df = new DecimalFormat("0.00");
         if(uService.login(username,password) != null){
             BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
-            return new ResponseEntity(bpEntity, HttpStatus.OK);
+            if(bpEntity != null){
+                return new ResponseEntity(bpEntity, HttpStatus.OK);
+            }
+            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity(null, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PostMapping("/{bookID}/follow")
@@ -66,7 +67,10 @@ public class BookProcessController {
     ) {
         if(uService.login(username,password) != null){
             BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
-            bpEntity.setFollow(!bpEntity.isFollow());
+            if(bpEntity == null){
+                bpEntity = new BookProcessEntity(username,bookID,null,false,false);
+            }
+            bpEntity.setIsFollow(!bpEntity.getIsFollow());
             bService.saveBookProcessEntity(bpEntity);
         }
     }
