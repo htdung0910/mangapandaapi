@@ -3,6 +3,8 @@ package com.example.demo.Entity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;

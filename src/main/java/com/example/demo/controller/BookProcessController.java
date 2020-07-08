@@ -4,6 +4,8 @@ import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.BookProcessEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import com.example.demo.ServiceInterface.UserServiceInterface;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,28 +22,37 @@ public class BookProcessController {
     @Autowired
     private UserServiceInterface uService;
 
+    private static Logger log = LogManager.getLogger(BookProcessController.class);
+
     @PostMapping("/{bookID}/{rateValue}")
     @CrossOrigin
-    public void rateChapterByMangaID(@PathVariable("bookID") String bookID, @PathVariable("rateValue") float rateValue,
+    public Object rateChapterByMangaID(@PathVariable("bookID") String bookID, @PathVariable("rateValue") float rateValue,
                                      @RequestParam("username") String username, @RequestParam("password") String password
     ) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        if(uService.login(username,password) != null){
-            BookEntity bEntity = bService.getByID(bookID);
+        try{
+            DecimalFormat df = new DecimalFormat("0.00");
+            if(uService.login(username,password) != null){
+                BookEntity bEntity = bService.getByID(bookID);
 
 
-            String newRateValue = df.format((bEntity.getRatingvalue() * bEntity.getRatingcount() + rateValue)/(bEntity.getRatingcount() + 1));
-            bEntity.setRatingvalue(Float.valueOf(newRateValue));
-            bEntity.setRatingcount(bEntity.getRatingcount() + 1);
+                String newRateValue = df.format((bEntity.getRatingvalue() * bEntity.getRatingcount() + rateValue)/(bEntity.getRatingcount() + 1));
+                bEntity.setRatingvalue(Float.valueOf(newRateValue));
+                bEntity.setRatingcount(bEntity.getRatingcount() + 1);
 
-            BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
-            if(bpEntity == null){
-                bpEntity = new BookProcessEntity(username,bookID,null,false,false);
+                BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
+                if(bpEntity == null){
+                    bpEntity = new BookProcessEntity(username,bookID, (float) 0.0,false,false);
+                }
+                bpEntity.setRate(rateValue);
+                bService.saveBookProcessEntity(bpEntity);
+                bService.saveBookEntity(bEntity);
+                return new ResponseEntity("", HttpStatus.OK);
             }
-            bpEntity.setRate(rateValue);
-            bService.saveBookProcessEntity(bpEntity);
-            bService.saveBookEntity(bEntity);
+            return new ResponseEntity("Cannot indentified you", HttpStatus.NOT_ACCEPTABLE);
+        }catch (Exception e){
+            log.error(e.getMessage());
         }
+        return new ResponseEntity("Error of the Internet", HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/{bookID}")
@@ -49,29 +60,50 @@ public class BookProcessController {
     public Object getRateByBookIDAndUser(@PathVariable("bookID") String bookID,
                                          @RequestParam("username") String username,@RequestParam("password") String password
     ) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        if(uService.login(username,password) != null){
-            BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
-            if(bpEntity != null){
+        try{
+            if(uService.login(username,password) != null){
+                BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
+                if(bpEntity != null){
+                    if(bpEntity.getIsFollow() == null){
+                        bpEntity.setIsFollow(false);
+                    }
+                    if(bpEntity.getIsUpload() == null){
+                        bpEntity.setIsUpload(false);
+                    }
+                    if(bpEntity.getRate() == null){
+                        bpEntity.setRate((float) 0.0);
+                    }
+                    return new ResponseEntity(bpEntity, HttpStatus.OK);
+                }
+                bpEntity = new BookProcessEntity(username, bookID, (float) 0.0, false,false);
                 return new ResponseEntity(bpEntity, HttpStatus.OK);
             }
-            return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(null, HttpStatus.NOT_ACCEPTABLE);
+        }catch (Exception e){
+            log.error(e.getMessage());
         }
-        return new ResponseEntity(null, HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/{bookID}/follow")
     @CrossOrigin
-    public void setUserFollow(@PathVariable("bookID") String bookID,
+    public Object setUserFollow(@PathVariable("bookID") String bookID,
                               @RequestParam("username") String username,@RequestParam("password") String password
     ) {
-        if(uService.login(username,password) != null){
-            BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
-            if(bpEntity == null){
-                bpEntity = new BookProcessEntity(username,bookID,null,false,false);
+        try{
+            if(uService.login(username,password) != null){
+                BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
+                if(bpEntity == null){
+                    bpEntity = new BookProcessEntity(username,bookID, (float) 0.0,false,false);
+                }
+                bpEntity.setIsFollow(!bpEntity.getIsFollow());
+                bService.saveBookProcessEntity(bpEntity);
+                return new ResponseEntity(bpEntity.getIsFollow(), HttpStatus.OK);
             }
-            bpEntity.setIsFollow(!bpEntity.getIsFollow());
-            bService.saveBookProcessEntity(bpEntity);
+            return new ResponseEntity(false, HttpStatus.NOT_ACCEPTABLE);
+        }catch (Exception e){
+            log.error(e.getMessage());
         }
+        return new ResponseEntity(false, HttpStatus.BAD_REQUEST);
     }
 }
