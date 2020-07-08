@@ -94,7 +94,7 @@ public class BookProcessController {
             if(uService.login(username,password) != null){
                 BookProcessEntity bpEntity = bService.getInfoUserBetweenBook(username,bookID);
                 if(bpEntity == null){
-                    bpEntity = new BookProcessEntity(username,bookID, (float) 0.0,false,false);
+                    bpEntity = new BookProcessEntity(username,bookID, (float) 0.0, false,false);
                 }
                 bpEntity.setIsFollow(!bpEntity.getIsFollow());
                 bService.saveBookProcessEntity(bpEntity);
