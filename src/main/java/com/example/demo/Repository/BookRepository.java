@@ -47,7 +47,7 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
             "  FROM [dbo].[Book] b\n" +
             "  INNER JOIN Book_process bp ON bp.bookID = b.bookID\n" +
             "  INNER JOIN [User] u ON u.username = bp.username\n" +
-            "  WHERE u.username = ?1 and bp.isFollow = True", nativeQuery = true)
+            "  WHERE u.username = ?1 and bp.isFollow = 1", nativeQuery = true)
     List<BookEntity> getListMangaFollowByUser(String username);
 
 
