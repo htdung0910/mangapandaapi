@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.Entity.*;
+import com.example.demo.Entity.ReturnEntity.ReturnUserEntity;
 import com.example.demo.Repository.*;
-import com.example.demo.ReturnEntity.ReturnBookEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tomcat.util.digester.ArrayStack;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -198,10 +197,13 @@ public class BookService implements BookServiceInterface {
     }
 
     @Override
-    public List<UserEntity> getTopUserPostBook() {
-        List<UserEntity> listTopUserPostManga = null;
+    public List<ReturnUserEntity> getTopUserPostBook() {
+        List<ReturnUserEntity> listTopUserPostManga = new ArrayList<>();
         try{
-            listTopUserPostManga = uRepo.getListTopUserByRateBook();
+            List<UserEntity> listTemp = uRepo.getListTopUserByRateBook();
+            for (UserEntity u : listTemp){
+                listTopUserPostManga.add(new ReturnUserEntity(u.getUsername(),u.getFullname()));
+            }
         }catch(Exception e){
             log.error(e.getMessage());
             e.printStackTrace();

@@ -1,11 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
-import com.example.demo.Entity.BookProcessEntity;
-import com.example.demo.Entity.GenresEntity;
-import com.example.demo.ReturnEntity.ReturnBookEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
-import com.example.demo.ServiceInterface.GenresServiceInterface;
 import com.example.demo.ServiceInterface.UserServiceInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DecimalFormat;
 import java.util.*;
 
 @RestController

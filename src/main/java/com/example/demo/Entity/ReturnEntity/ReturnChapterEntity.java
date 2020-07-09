@@ -1,4 +1,4 @@
-package com.example.demo.ReturnEntity;
+package com.example.demo.Entity.ReturnEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

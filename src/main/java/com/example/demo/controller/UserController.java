@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
+import com.example.demo.Entity.ReturnEntity.ReturnUserEntity;
 import com.example.demo.Entity.UserEntity;
 import com.example.demo.ServiceInterface.BookServiceInterface;
 import com.example.demo.ServiceInterface.UserServiceInterface;
@@ -112,7 +113,7 @@ public class UserController {
     @GetMapping("/topPost")
     @CrossOrigin
     public ResponseEntity getTopUserByBookRate() {
-        List<UserEntity> result = null;
+        List<ReturnUserEntity> result = null;
         try {
             result = bService.getTopUserPostBook();
         } catch (Exception e) {

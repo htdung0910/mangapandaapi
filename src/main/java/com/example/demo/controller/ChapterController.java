@@ -1,8 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.Entity.ChapterEntity;
-import com.example.demo.Entity.ImageEntity;
-import com.example.demo.ReturnEntity.ReturnChapterEntity;
+import com.example.demo.Entity.ReturnEntity.ReturnChapterEntity;
 import com.example.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
