@@ -208,4 +208,15 @@ public class BookService implements BookServiceInterface {
         }
         return listTopUserPostManga;
     }
+
+    @Override
+    public List<BookEntity> getTop10ListMangaOrderByUploadDate() {
+        List<BookEntity> listBook = null;
+        try{
+            listBook = bRepo.getTop10ListMangaOrderByUploadDate();
+        }catch(Exception e){
+            log.error(e.getMessage());
+        }
+        return listBook;
+    }
 }

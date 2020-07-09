@@ -82,4 +82,10 @@ public interface BookServiceInterface {
      *
      * */
     List<UserEntity> getTopUserPostBook();
+
+    /**
+     * Trả về list top 10 book recent upload
+     *
+     * */
+    List<BookEntity> getTop10ListMangaOrderByUploadDate();
 }

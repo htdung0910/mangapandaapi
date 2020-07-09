@@ -50,6 +50,11 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
             "  WHERE u.username = ?1 and bp.isFollow = 1", nativeQuery = true)
     List<BookEntity> getListMangaFollowByUser(String username);
 
+    @Query(value="SELECT Top 10 b.*\n" +
+            "  FROM [dbo].[Book] b\n" +
+            "  INNER JOIN Chapter c ON c.bookID = b.bookID\n" +
+            "  ORDER BY c.upload_date DESC", nativeQuery = true)
+    List<BookEntity> getTop10ListMangaOrderByUploadDate();
 
 
 

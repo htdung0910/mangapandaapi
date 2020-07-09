@@ -98,10 +98,22 @@ public class BookController {
             }
             return new ResponseEntity(listBookRecommend, HttpStatus.OK);
         } catch (Exception e) {
-
+            log.error(e.getMessage());
         }
         return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
     }
 
 
+    @GetMapping("/recentUpload")
+    @CrossOrigin
+    public Object getRecentUpload() {
+        try {
+            List<BookEntity> listBook = new ArrayList<>();
+            listBook = bService.getTop10ListMangaOrderByUploadDate();
+            return new ResponseEntity(listBook, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
+    }
 }
