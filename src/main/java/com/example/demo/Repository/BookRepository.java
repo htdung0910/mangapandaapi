@@ -53,7 +53,8 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
     @Query(value="SELECT Top 10 b.*\n" +
             "  FROM [dbo].[Book] b\n" +
             "  INNER JOIN Chapter c ON c.bookID = b.bookID\n" +
-            "  ORDER BY c.upload_date DESC", nativeQuery = true)
+            "  GROUP BY b.bookID, b.title, b.thumnail_path, b.rating_value, b.rating_count, b.author, b.detail_content, b.isLogin\n" +
+            "  ORDER BY max(c.upload_date) DESC\n", nativeQuery = true)
     List<BookEntity> getTop10ListMangaOrderByUploadDate();
 
 

@@ -78,11 +78,16 @@ public class UserController {
 
     @PutMapping("/update")
     @CrossOrigin
-    public Object update(@RequestParam("username") String username,
-                         @RequestParam("password") String password,
-                         @RequestParam("fullname") String fullname) {
+    public Object update(   @RequestParam("username") String username,
+                            @RequestParam("password") String password,
+                            @RequestParam(value = "fullname", required = false) String fullname)
+
+    {
         try {
-            UserEntity user = new UserEntity(username.trim(), password.trim(),fullname.trim());
+            if(fullname == null){
+                fullname = "";
+            }
+            UserEntity user = new UserEntity(username.trim(), password.trim(), fullname.trim());
             if (uService.updateAUser(user)) {
                 return new ResponseEntity("OK", HttpStatus.OK);
             }
@@ -92,7 +97,6 @@ public class UserController {
             log.error(e.getMessage());
         }
         return new ResponseEntity("Update denied", HttpStatus.UNAUTHORIZED);
-
     }
 
     @PostMapping("/follow")
