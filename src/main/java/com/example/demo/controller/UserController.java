@@ -47,10 +47,15 @@ public class UserController {
 
     @PostMapping("/register")
     @CrossOrigin
-    public ResponseEntity<String> register(@RequestParam("username") String username,@RequestParam("password") String password) {
+    public ResponseEntity<String> register(@RequestParam("username") String username,
+                                           @RequestParam("password") String password,
+                                           @RequestParam(value = "fullname", required = false) String fullname) {
 
         try {
-            UserEntity user = new UserEntity(username.trim(), password.trim());
+            if(fullname == null){
+                fullname = "";
+            }
+            UserEntity user = new UserEntity(username.trim(), password.trim(), fullname.trim());
             if (uService.addUser(user)) {
                 return new ResponseEntity("OK", HttpStatus.OK);
             }
