@@ -21,7 +21,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "isadmin")
-    private int isAdmin;
+    private int admin;
 
     public UserEntity() {
 
@@ -31,14 +31,14 @@ public class UserEntity {
         this.username = username;
         this.password = password;
         this.fullname = "";
-        this.isAdmin = 0;
+        this.admin = 0;
     }
 
     public UserEntity(String username, String password, String fullname) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
-        this.isAdmin = 0;
+        this.admin = 0;
     }
 
 }

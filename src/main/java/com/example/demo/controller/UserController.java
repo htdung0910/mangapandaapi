@@ -33,7 +33,7 @@ public class UserController {
         try {
             UserEntity user = uService.login(username, password);
             if (user != null) {
-                if(user.getIsAdmin() == 1){
+                if(user.getAdmin() == 1){
                     return new ResponseEntity("", HttpStatus.NOT_ACCEPTABLE);
                 }
                 return new ResponseEntity(user, HttpStatus.OK);

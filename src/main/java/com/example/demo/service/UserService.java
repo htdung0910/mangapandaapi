@@ -43,7 +43,7 @@ public class UserService implements UserServiceInterface {
     public boolean isAdmin(String username) {
         try {
             UserEntity user = repo.getUser(username);
-            return user.getIsAdmin() == 1;
+            return user.getAdmin() == 1;
         } catch (Exception e) {
             log.error(e.getMessage());
         }
