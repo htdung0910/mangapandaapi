@@ -43,10 +43,10 @@ public class GenresController {
             if(books == null)
                 return new ResponseEntity("The list is null",HttpStatus.BAD_REQUEST);
 
-            Map<String, String> result = new HashMap<>();
+            Map<String, Object> result = new HashMap<>();
             GenresEntity genre = gService.findGenreById((long)genreID);
             result.put("genreFind",genre.getGenre());
-            result.put("books",gson.toJson(books));
+            result.put("books",books);
             return new ResponseEntity(result, HttpStatus.OK);
 
         } catch (Exception e) {
