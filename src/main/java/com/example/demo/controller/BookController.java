@@ -8,9 +8,11 @@ import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.*;
 
@@ -110,5 +112,21 @@ public class BookController {
             log.error(e.getMessage());
         }
         return new ResponseEntity("Exception occured", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/vip")
+    @CrossOrigin
+    public Object getMangaVip(
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "5") Integer size) {
+        try {
+            Page<BookEntity> pageOfBook = bService.getVipBook(page, size);
+            if (pageOfBook == null)
+                return new ResponseEntity(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(pageOfBook.getContent(), HttpStatus.OK);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return new ResponseEntity(null, HttpStatus.NOT_FOUND);
     }
 }

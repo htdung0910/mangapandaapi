@@ -3,6 +3,8 @@ package com.example.demo.Repository;
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.GenresEntity;
 import com.example.demo.Entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -57,6 +59,7 @@ public interface BookRepository extends JpaRepository<BookEntity, String> {
             "  ORDER BY max(c.upload_date) DESC\n", nativeQuery = true)
     List<BookEntity> getTop10ListMangaOrderByUploadDate();
 
-
+    @Query(value = "SELECT b FROM BookEntity b WHERE b.isLogin = 1")
+    public Page<BookEntity> findVipBook(Pageable pageable);
 
 }

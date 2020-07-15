@@ -7,6 +7,9 @@ import com.example.demo.ServiceInterface.BookServiceInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -220,5 +223,19 @@ public class BookService implements BookServiceInterface {
             log.error(e.getMessage());
         }
         return listBook;
+    }
+
+    @Override
+    public Page<BookEntity> getVipBook(int page, int size) {
+        try {
+            Pageable request = PageRequest.of(page, size);
+            Page<BookEntity> returnData = bRepo.findVipBook(request);
+            if(returnData.getContent().isEmpty())
+                return null;
+            return returnData;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return null;
     }
 }

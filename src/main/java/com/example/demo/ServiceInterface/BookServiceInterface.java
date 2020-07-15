@@ -5,6 +5,7 @@ import com.example.demo.Entity.BookProcessEntity;
 import com.example.demo.Entity.ChapterEntity;
 import com.example.demo.Entity.ReturnEntity.ReturnUserEntity;
 import com.example.demo.Entity.UserEntity;
+import org.springframework.data.domain.Page;
 
 import java.util.*;
 
@@ -88,4 +89,6 @@ public interface BookServiceInterface {
      *
      * */
     List<BookEntity> getTop10ListMangaOrderByUploadDate();
+
+    Page<BookEntity> getVipBook(int page, int size);
 }
