@@ -23,7 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     UserEntity login(@Param("username") String username, @Param("password") String password);
 
     @Query(value="SELECT u.*\n" +
-            "FROM [dbo].[User] u\n" +
+            "FROM [dbo].[Users] u\n" +
             "INNER JOIN Book_process bp ON bp.username = u.username\n" +
             "INNER JOIN [Book] b ON b.bookID = bp.bookID\n" +
             "WHERE bp.isUpload = 1\n" +
