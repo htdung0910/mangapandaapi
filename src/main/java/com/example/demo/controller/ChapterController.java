@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.Entity.ChapterEntity;
 import com.example.demo.Entity.ReturnEntity.ReturnChapterEntity;
-import com.example.demo.service.impl.BookServiceImpl;
+import com.example.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ChapterController {
 
     @Autowired
-    private BookServiceImpl service;
+    private BookService service;
 
     @GetMapping("/image/{chapterID}")
     @CrossOrigin

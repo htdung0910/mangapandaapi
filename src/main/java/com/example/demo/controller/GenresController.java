@@ -2,7 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.GenresEntity;
-import com.example.demo.service.*;
+import com.example.demo.ServiceInterface.*;
+import com.example.demo.service.BookService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -20,10 +21,10 @@ import java.util.Map;
 @RequestMapping("/genre")
 public class GenresController {
     @Autowired
-    private GenresService gService;
+    private GenresServiceInterface gService;
 
     @Autowired
-    private BookService bService;
+    private BookServiceInterface bService;
 
     private static Logger log = LogManager.getLogger(GenresController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();

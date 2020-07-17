@@ -2,8 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.BookProcessEntity;
-import com.example.demo.service.BookService;
-import com.example.demo.service.UserService;
+import com.example.demo.ServiceInterface.BookServiceInterface;
+import com.example.demo.ServiceInterface.UserServiceInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +17,10 @@ import java.text.DecimalFormat;
 @RequestMapping("/userbookinfo")
 public class BookProcessController {
     @Autowired
-    private BookService bService;
+    private BookServiceInterface bService;
 
     @Autowired
-    private UserService uService;
+    private UserServiceInterface uService;
 
     private static Logger log = LogManager.getLogger(BookProcessController.class);
 

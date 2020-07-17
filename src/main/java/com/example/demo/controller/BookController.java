@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.Entity.BookEntity;
-import com.example.demo.service.BookService;
-import com.example.demo.service.UserService;
+import com.example.demo.ServiceInterface.BookServiceInterface;
+import com.example.demo.ServiceInterface.UserServiceInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +20,9 @@ import java.util.*;
 @RequestMapping("/manga")
 public class BookController {
     @Autowired
-    private BookService bService;
+    private BookServiceInterface bService;
     @Autowired
-    private UserService uService;
+    private UserServiceInterface uService;
 
     private static Logger log = LogManager.getLogger(BookController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();

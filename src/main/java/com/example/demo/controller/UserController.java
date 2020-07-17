@@ -3,8 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.Entity.BookEntity;
 import com.example.demo.Entity.ReturnEntity.ReturnUserEntity;
 import com.example.demo.Entity.UserEntity;
-import com.example.demo.service.BookService;
-import com.example.demo.service.UserService;
+import com.example.demo.ServiceInterface.BookServiceInterface;
+import com.example.demo.ServiceInterface.UserServiceInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +20,9 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserService uService;
+    private UserServiceInterface uService;
     @Autowired
-    private BookService bService;
+    private BookServiceInterface bService;
 
     private static Logger log = LogManager.getLogger(UserController.class);
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
